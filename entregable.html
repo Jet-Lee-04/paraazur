@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InnovVentas - Tecnología al Alcance</title>
+    
+    <!-- Tailwind CSS (Estilos Modernos) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome (Iconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Configuración de Colores Personalizada -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Estilos adicionales suaves */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .product-card:hover .product-actions { opacity: 1; transform: translateY(0); }
+        .animate-fade-in { animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- TOP BAR (Información) -->
+    <div class="bg-brand-900 text-slate-300 text-xs py-2 hidden md:block">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex space-x-6">
+                <span><i class="fas fa-phone-alt mr-2"></i>+1 (555) 123-4567</span>
+                <span><i class="fas fa-envelope mr-2"></i>soporte@innovventas.com</span>
+            </div>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-white transition">Seguimiento</a>
+                <a href="#" class="hover:text-white transition">Devoluciones</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="bg-white sticky top-0 z-40 shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <div class="bg-brand-600 p-2 rounded-lg text-white">
+                        <i class="fas fa-microchip fa-lg"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-slate-900 tracking-tight">
+                        Innov<span class="text-brand-600">Ventas</span>
+                    </span>
+                </div>
+
+                <!-- Buscador (Desktop) -->
+                <div class="hidden md:flex flex-1 max-w-lg mx-8 relative">
+                    <input type="text" placeholder="Buscar laptops, cámaras..." 
+                        class="w-full bg-gray-100 border-none rounded-full py-2.5 pl-4 pr-12 focus:ring-2 focus:ring-brand-500 outline-none transition text-sm">
+                    <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-brand-600 rounded-full text-white hover:bg-brand-700 transition flex items-center justify-center">
+                        <i class="fas fa-search text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Iconos -->
+                <div class="flex items-center space-x-6">
+                    <button class="hidden md:block text-slate-600 hover:text-brand-600 transition">
+                        <i class="far fa-heart fa-lg"></i>
+                    </button>
+                    <button class="relative text-slate-600 hover:text-brand-600 transition" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart fa-lg"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full animate-bounce">2</span>
+                    </button>
+                    <!-- Botón Menú Móvil -->
+                    <button class="md:hidden text-slate-900" onclick="toggleMenu()">
+                        <i class="fas fa-bars fa-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú Móvil (Oculto por defecto) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 p-4 space-y-4 shadow-lg">
+            <input type="text" placeholder="Buscar..." class="w-full bg-gray-100 rounded-lg p-3 text-sm mb-4">
+            <a href="#" class="block text-slate-700 font-medium py-2 border-b border-gray-50">Laptops & PCs</a>
+            <a href="#" class="block text-slate-700 font-medium py-2 border-b border-gray-50">Audio & Sonido</a>
+            <a href="#" class="block text-slate-700 font-medium py-2 border-b border-gray-50">Ofertas</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative bg-brand-900 text-white overflow-hidden h-[500px] flex items-center">
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900 to-transparent z-10"></div>
+        <!-- Imagen de fondo con fallback -->
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80" 
+             onerror="this.src='https://placehold.co/1920x600/1e293b/ffffff?text=InnovVentas+Tech'"
+             alt="Fondo Tecnológico" 
+             class="absolute inset-0 w-full h-full object-cover opacity-50">
+        
+        <div class="container mx-auto px-6 relative z-20 animate-fade-in">
+            <span class="text-brand-500 font-bold tracking-wider uppercase mb-4 text-sm block">Tecnología de Punta</span>
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6 max-w-2xl">
+                El Futuro Digital <br/> Está en tus Manos
+            </h1>
+            <p class="text-slate-300 text-lg mb-8 max-w-xl leading-relaxed">
+                Descubre la nueva generación de dispositivos inteligentes. Soporte garantizado y envíos a todo el país.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button class="bg-brand-600 hover:bg-brand-700 text-white px-8 py-3.5 rounded-full font-bold transition shadow-lg flex items-center justify-center gap-2">
+                    Comprar Ahora <i class="fas fa-chevron-right text-xs"></i>
+                </button>
+                <button class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 px-8 py-3.5 rounded-full font-bold transition">
+                    Ver Catálogo
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- FEATURES (Beneficios) -->
+    <div class="bg-white py-8 shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition cursor-default">
+                <div class="bg-blue-100 p-3 rounded-full text-blue-600 h-12 w-12 flex items-center justify-center">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800">Envío Rápido</h4>
+                    <p class="text-sm text-slate-500">24-48 horas garantizado</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition cursor-default">
+                <div class="bg-emerald-100 p-3 rounded-full text-emerald-600 h-12 w-12 flex items-center justify-center">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800">Garantía Total</h4>
+                    <p class="text-sm text-slate-500">2 años de protección</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition cursor-default">
+                <div class="bg-purple-100 p-3 rounded-full text-purple-600 h-12 w-12 flex items-center justify-center">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800">Soporte Técnico</h4>
+                    <p class="text-sm text-slate-500">Resolvemos tus dudas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATALOGO DE PRODUCTOS -->
+    <section class="py-20 container mx-auto px-6">
+        <div class="flex justify-between items-end mb-10">
+            <div>
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Destacados de la Semana</h2>
+                <p class="text-slate-500">Las mejores ofertas seleccionadas para ti.</p>
+            </div>
+            <a href="#" class="hidden md:flex items-center text-brand-600 font-bold hover:text-brand-700 transition">
+                Ver Todo <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+
+        <!-- Grid de Productos (Renderizado por JS) -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- El contenido se inyecta aquí con JavaScript -->
+        </div>
+
+        <div class="mt-12 text-center md:hidden">
+            <button class="bg-white border border-slate-300 text-slate-700 font-bold py-3 px-8 rounded-full hover:bg-slate-50 transition w-full">
+                Ver Todos los Productos
+            </button>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE PROBLEMA (CONTACTO LENTO) -->
+    <section class="bg-slate-100 py-16 border-t border-slate-200">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                
+                <!-- Info de Contacto -->
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">¿Necesitas ayuda con tu compra?</h2>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        Sabemos que comprar tecnología puede generar dudas. Si tienes preguntas sobre especificaciones o pagos, contáctanos.
+                        <br><span class="text-xs text-slate-400 italic">(Nota: Actualmente experimentamos altos volúmenes de consulta).</span>
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start bg-white p-4 rounded-lg shadow-sm">
+                            <i class="fas fa-envelope text-brand-600 mt-1 text-xl"></i>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800">Envíanos un Correo</h4>
+                                <p class="text-sm text-slate-500">soporte@innovventas.com</p>
+                                <p class="text-xs text-orange-500 mt-1 font-medium"><i class="fas fa-clock mr-1"></i>Respuesta en 24-48 horas</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start bg-white p-4 rounded-lg shadow-sm">
+                            <i class="fas fa-phone text-brand-600 mt-1 text-xl"></i>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800">Línea Telefónica</h4>
+                                <p class="text-sm text-slate-500">+1 (555) 123-4567</p>
+                                <p class="text-xs text-slate-400 mt-1">Lunes a Viernes, 9am - 5pm</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Formulario -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6">Déjanos un Mensaje</h3>
+                    <form onsubmit="event.preventDefault(); alert('Mensaje enviado. Le responderemos en 24-48 horas.');">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Nombre</label>
+                            <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none" required placeholder="Tu nombre">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                            <input type="email" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none" required placeholder="tu@email.com">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Consulta</label>
+                            <textarea rows="3" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none" placeholder="Tengo una duda sobre..."></textarea>
+                        </div>
+                        <button class="w-full bg-slate-900 text-white font-bold py-3 rounded-lg hover:bg-slate-800 transition flex justify-center items-center gap-2">
+                            <span>Enviar Ticket</span> <i class="fas fa-paper-plane text-xs"></i>
+                        </button>
+                        <p class="text-center text-xs text-slate-400 mt-2">
+                            Te contactaremos lo antes posible.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-12 text-sm mt-auto">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-1">
+                    <span class="text-2xl font-bold text-white tracking-tight mb-4 block">
+                        Innov<span class="text-brand-600">Ventas</span>
+                    </span>
+                    <p class="mb-4">Líderes en tecnología. Calidad garantizada.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-white transition"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="hover:text-white transition"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="hover:text-white transition"><i class="fab fa-instagram fa-lg"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Tienda</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-brand-500 transition">Laptops</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Smartphones</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Audio</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Ayuda</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-brand-500 transition">Pedidos</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Envíos</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Privacidad</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Suscríbete</h4>
+                    <div class="flex">
+                        <input type="email" placeholder="Email" class="bg-slate-800 border-none rounded-l-lg px-4 py-2 w-full focus:outline-none text-white">
+                        <button class="bg-brand-600 text-white px-4 py-2 rounded-r-lg hover:bg-brand-700 transition">OK</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2023 InnovVentas Inc. Todos los derechos reservados.</p>
+                <div class="mt-4 md:mt-0 flex items-center gap-2">
+                    <i class="fas fa-map-marker-alt"></i> Av. Tecnología 123, Ciudad Digital
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="chat-container" class="fixed bottom-24 right-6 z-50 w-[360px] max-w-[90vw] h-[500px] bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden hidden">
+        <iframe src="https://webchat.botframework.com/embed/probandotarea-bot?s=2JK3iSTusajXxvmtBwjg5xqVyrNCKJnHU3wpsCYEsl8UNGvhihZ8JQQJ99BLACi5YpzAArohAAABAZBS2yj0.6ICam883aX4X0XqQtCUmrt9x8UdQ27s0VfwPvf2tiwzB3HNfZ4MnJQQJ99BLACi5YpzAArohAAABAZBS1EW1" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+    <button id="chat-toggle" onclick="toggleChat()" class="fixed bottom-6 right-6 z-50 bg-brand-600 text-white rounded-full w-14 h-14 shadow-lg hover:bg-brand-700 transition flex items-center justify-center" aria-label="Abrir chat">
+        <i class="fas fa-comments fa-lg"></i>
+    </button>
+
+    <!-- JAVASCRIPT (Lógica del Sitio) -->
+    <script>
+        // --- 1. DATOS DE PRODUCTOS ---
+        const products = [
+            {
+                id: 1,
+                name: "Ultrabook Pro X1",
+                category: "Laptops",
+                price: 1299.99,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca4?auto=format&fit=crop&w=800&q=80",
+                badge: "Más Vendido"
+            },
+            {
+                id: 2,
+                name: "Auriculares Studio",
+                category: "Audio",
+                price: 249.50,
+                rating: 4.5,
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+                badge: "Oferta"
+            },
+            {
+                id: 3,
+                name: "Smartwatch Elite",
+                category: "Wearables",
+                price: 199.00,
+                rating: 4.2,
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+                badge: null
+            },
+            {
+                id: 4,
+                name: "Cámara ProLens 4K",
+                category: "Fotografía",
+                price: 849.99,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80",
+                badge: null
+            },
+            {
+                id: 5,
+                name: "Control Gaming",
+                category: "Gaming",
+                price: 59.00,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1486401899868-0e435ed85128?auto=format&fit=crop&w=800&q=80",
+                badge: "Pocas Unidades"
+            },
+            {
+                id: 6,
+                name: "Drone AirMaster",
+                category: "Drones",
+                price: 459.00,
+                rating: 4.3,
+                image: "https://images.unsplash.com/photo-1507582020489-dcf3483ca3b6?auto=format&fit=crop&w=800&q=80",
+                badge: null
+            }
+        ];
+
+        // --- 2. RENDERIZAR PRODUCTOS ---
+        const grid = document.getElementById('product-grid');
+        
+        products.forEach(product => {
+            const card = document.createElement('div');
+            card.className = "group bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-gray-100 overflow-hidden flex flex-col";
+            
+            // Lógica Badge
+            const badgeHTML = product.badge 
+                ? `<span class="absolute top-4 left-4 bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-full z-10">${product.badge}</span>` 
+                : '';
+
+            card.innerHTML = `
+                <div class="relative h-64 overflow-hidden bg-gray-100">
+                    ${badgeHTML}
+                    <button class="absolute top-4 right-4 bg-white/80 p-2 rounded-full text-slate-400 hover:text-red-500 transition z-10 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <img src="${product.image}" 
+                         onerror="this.src='https://placehold.co/800x600/e2e8f0/1e293b?text=Producto'" 
+                         alt="${product.name}" 
+                         class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="p-6 flex flex-col flex-1">
+                    <div class="text-xs text-brand-600 font-semibold uppercase tracking-wide mb-2">${product.category}</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-brand-600 transition">${product.name}</h3>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-star text-yellow-400 text-sm"></i>
+                        <span class="text-sm font-medium text-slate-600 ml-1">${product.rating}</span>
+                        <span class="text-sm text-slate-400 ml-2">(120 reviews)</span>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">$${product.price.toFixed(2)}</span>
+                        <button onclick="addToCart()" class="bg-slate-100 text-slate-900 hover:bg-brand-600 hover:text-white px-4 py-2 rounded-lg font-semibold transition text-sm flex items-center gap-2">
+                            <i class="fas fa-shopping-cart"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // --- 3. LÓGICA DEL CARRITO ---
+        let count = 2;
+        const cartBadge = document.getElementById('cart-count');
+        
+        function addToCart() {
+            count++;
+            cartBadge.innerText = count;
+            // Animación simple
+            cartBadge.classList.remove('animate-bounce');
+            void cartBadge.offsetWidth; // trigger reflow
+            cartBadge.classList.add('animate-bounce');
+        }
+
+        // --- 4. MENÚ MÓVIL ---
+        const mobileMenu = document.getElementById('mobile-menu');
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+        
+        const chatContainer = document.getElementById('chat-container');
+        function toggleChat() {
+            chatContainer.classList.toggle('hidden');
+        }
+
+        console.log("Sistema listo para integración de Chatbot Azure");
+
+    </script>
+</body>
+</html>
